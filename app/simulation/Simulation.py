@@ -41,7 +41,7 @@ class Simulation(object):
             CustomRouter.reRouteEveryTicks = config['reRouteEveryTicks']
         except:
             pass
-
+    
     @classmethod
     def start(cls):
         """ start the simulation """
@@ -136,6 +136,21 @@ class Simulation(object):
                     CarRegistry.totalTripAverage) + "(" + str(
                     CarRegistry.totalTrips) + ")" + " # avgTripOverhead: " + str(
                     CarRegistry.totalTripOverheadAverage))
+                
+                # Write monitoring data to json file 
+                file_path = "../HTTPServer/monitor_data.json"
+                data =  {
+                        'step': str(Config.processID),
+                        'currentCars': traci.vehicle.getIDCount(),
+                        'totalCarCounter': CarRegistry.totalCarCounter,
+                        'carIndexCounter': CarRegistry.carIndexCounter,
+                        'totalTrips': CarRegistry.totalTrips,
+                        'totalTripAverage': CarRegistry.totalTripAverage,
+                        'totalTripOverheadAverage': CarRegistry.totalTripOverheadAverage
+                    }
+                with open(file_path, 'w') as json_file:
+                    json.dump(data, json_file)
+
 
                 # @depricated -> will be removed
                 # # if we are in paralllel mode we end the simulation after 10000 ticks with a result output

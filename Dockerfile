@@ -1,23 +1,14 @@
 FROM python:2.7
 
+ADD  /app/HTTPServer /app/HTTPServer
+COPY  /app/simulation /app/simulation
+COPY knobs.json knobs.json
 
-RUN apt-get update &&              \
-  apt-get install -y             \
-    build-essential              \
-    git                          \
-    libxerces-c-dev
+# WORKDIR /app
 
-RUN mkdir -p /opt
-RUN (cd /opt; git clone https://github.com/radiganm/sumo.git)
-RUN (cd /opt/sumo; ./configure)
-RUN (cd /opt/sumo; make)
-RUN (cd /opt/sumo; make install)
+# COPY . /app 
+RUN pip install flask
 
-ENV SUMO_HOME /opt/sumo
-# First cache dependencies
-ADD ./setup.py /app/setup.py
-RUN python /app/setup.py install
-# Add sources
-ADD ./ /app/
-WORKDIR /app
-CMD ["python","/app/forever.py"]
+# WORKDIR /app
+RUN chmod +x start.sh
+CMD [ "start.sh"  ] 
