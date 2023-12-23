@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 knobs_path = '../../knobs.json'
 
+monitor_data_path = './monitor_data.json'
 
 def read_knobs():
     """Read the knobs.json file."""
@@ -58,8 +59,9 @@ class MonitorSchemaAPI(MethodView):
 app.add_url_rule('/monitor_schema', view_func=MonitorSchemaAPI.as_view('monitor_schema'))
 
 
+
 class AdaptationOptionsSchemaAPI(MethodView):
-    def get(self):
+    def get(self):  # Add 'self' as the first parameter
         schema = {
             'type': 'object',
             'properties': {
@@ -106,8 +108,17 @@ class AdaptationOptionsSchemaAPI(MethodView):
         return jsonify(schema)
 
 
-app.add_url_rule('/adaptation_options_schema', view_func=AdaptationOptionsSchemaAPI.as_view('adaptation_options_schema'))
+@app.route('/adaptation_options_schema', methods=['GET'])
+def get_adaptation_options_schema():
+    return jsonify({"adaptation_options_schema": "This is /adaptation_options_schema endpoint"})
 
-
+@app.route('/monitor', methods=['GET'])
+def get():
+    # try:
+    with open(monitor_data_path, "r") as file:
+        data = json.load(file)
+    return data
+    # except FileNotFoundError:
+        # return jsonify({'error': 'monitor_data.json not found'}), 404
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run( host='0.0.0.0',port=3000)

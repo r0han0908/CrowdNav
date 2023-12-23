@@ -2,8 +2,9 @@
 
 # cd /app/HTTPServer 
 echo "Docker started."
+pip install flask
 python forever.py &
 
-cd /app/app/HTTPServer
+cd /app/HTTPServer 
 
 python main.py 
