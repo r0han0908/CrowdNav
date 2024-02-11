@@ -46,11 +46,61 @@ def execute_adaptation():
 
 class MonitorSchemaAPI(MethodView):
     def get(self):
+        # schema = {
+        #     'vehicle_count': 'number',
+        #     'avg_trip_duration': 'number',
+        #     'total_trips': 'number',
+        #     'avg_trip_overhead': 'number'
+        # }
+
         schema = {
-            'vehicle_count': 'number',
-            'avg_trip_duration': 'number',
-            'total_trips': 'number',
-            'avg_trip_overhead': 'number'
+            "typr": "object",
+            "properties": {
+                "vehicle_count": {
+                    "type": "number",
+                    "description": "The number of vehicles in the simulation"
+                },
+                "avg_trip_duration": {
+                    "type": "number",
+                    "description": "The average trip duration"
+                },
+                "total_trips": {
+                    "type": "number",
+                    "description": "The total number of trips"
+                },
+                "avg_trip_overhead": {
+                    "type": "number",
+                    "description": "The average trip overhead"
+                },
+                "routeRandomSigma": {
+                    "type": "float",
+                    "description": "The randomization sigma of edge weights"  
+                },
+                "explorationPercentage": {
+                    "type": "float",
+                    "description": "The percentage of routes used for exploration"
+                },
+                "maxSpeedAndLengthFactor": {
+                    "type": "integer",
+                    "description": "How much the length/speed influences the routing"
+                },
+                "averageEdgeDurationFactor": {
+                    "type": "integer",
+                    "description": "How much the average edge factor influences the routing"
+                },
+                "freshnessUpdateFactor": {
+                    "type": "integer",
+                    "description": "How much the freshness update factor influences the routing"
+                },
+                "freshnessCutOffValue": {
+                    "type": "integer",
+                    "description": "If data is older than this, it is not considered in the algorithm"
+                },
+                "reRouteEveryTicks": {
+                    "type": "integer",
+                    "description": "Check for a new route every x times after the car starts"
+                }
+            }
         }
         return jsonify(schema)
 
