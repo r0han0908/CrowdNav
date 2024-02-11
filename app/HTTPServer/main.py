@@ -110,4 +110,4 @@ app.add_url_rule('/adaptation_options_schema', view_func=AdaptationOptionsSchema
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3000)

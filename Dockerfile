@@ -1,17 +1,15 @@
 FROM starofall/crowdnav
 
 ADD ./ /app/
+#ADD ./setup.py /app/setup.py
 
-# WORKDIR /app
 
 # COPY . /app 
 RUN pip install flask
 
 COPY ./start.sh /app
 
-# WORKDIR /app
-
-EXPOSE 5000
+EXPOSE 3000
 
 WORKDIR /app
 

@@ -3,7 +3,7 @@
 #
 
 # should use kafka for config changes (else it uses json file)
-kafkaUpdates = True
+kafkaUpdates = False
 # the kafka host we want to send our messages to
 kafkaHost = "kafka:9092"
 
