@@ -98,14 +98,6 @@ class Simulation(object):
              # Monitor vehicle density for each edge
             cls.monitor_edge_density()
 
-            # if we enable this we get debug information in the sumo-gui using global traveltime
-            # should not be used for normal running, just for debugging
-            # if (cls.tick % 10) == 0:
-            # for e in Network.routingEdges:
-            # 1)     traci.edge.adaptTraveltime(e.id, 100*e.averageDuration/e.predictedDuration)
-            #     traci.edge.adaptTraveltime(e.id, e.averageDuration)
-            # 3)     traci.edge.adaptTraveltime(e.id, (cls.tick-e.lastDurationUpdateTick)) # how old the data is
-
             # real time update of config if we are not in kafka mode
             if (cls.tick % 10) == 0:
                 if Config.kafkaUpdates is False and Config.mqttUpdates is False:
@@ -153,9 +145,8 @@ class Simulation(object):
                     CarRegistry.totalCarCounter) + " # avgTripDuration: " + str(
                     CarRegistry.totalTripAverage) + "(" + str(
                     CarRegistry.totalTrips) + ")" + " # avgTripOverhead: " + str(
-                    CarRegistry.totalTripOverheadAverage))
-            
-                        
+                    CarRegistry.totalTripOverheadAverage) + "get the " + "")
+                
                 # Write monitoring data to json file 
                 file_path = "app/HTTPServer/monitor_data.json"
                 data =  {
@@ -167,20 +158,9 @@ class Simulation(object):
                         'carIndexCounter': CarRegistry.carIndexCounter,
                         'totalTrips': CarRegistry.totalTrips,
                         'totalTripAverage': CarRegistry.totalTripAverage,
-                        'totalTripOverheadAverage': CarRegistry.totalTripOverheadAverage
+                        'totalTripOverheadAverage': CarRegistry.totalTripOverheadAverage ,
+                        'edgeIDs' : traci.edge.getIDList()
                     }
                 with open(file_path, 'w') as json_file:
                     json.dump(data, json_file)
 
-
-                # @depricated -> will be removed
-                # # if we are in paralllel mode we end the simulation after 10000 ticks with a result output
-                # if (cls.tick % 10000) == 0 and Config.parallelMode:
-                #     # end the simulation here
-                #     print(str(Config.processID) + " -> Step:" + str(cls.tick) + " # Driving cars: " + str(
-                #         traci.vehicle.getIDCount()) + "/" + str(
-                #         CarRegistry.totalCarCounter) + " # avgTripDuration: " + str(
-                #         CarRegistry.totalTripAverage) + "(" + str(
-                #         CarRegistry.totalTrips) + ")" + " # avgTripOverhead: " + str(
-                #         CarRegistry.totalTripOverheadAverage))
-                #     return

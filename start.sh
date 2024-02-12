@@ -2,4 +2,5 @@
 
 echo "Docker started."
 python forever.py &
-python /app/app/HTTPServer/main.py 
+cd /app/HTTPServer 
+python main.py 

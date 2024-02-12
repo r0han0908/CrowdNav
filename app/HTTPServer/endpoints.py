@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 import json 
 
 
@@ -27,8 +27,6 @@ with open(json_file_path, 'r') as json_file:
 
     # Now 'data' contains the contents of the JSON file as a Python dictionary
     print(adaptation_options_data)
-
-
 
 
 def getexecute():
